@@ -1,6 +1,8 @@
 package com.github.nicturtle.controller;
 
-import com.pengrad.telegrambot.TelegramBot;
+import com.github.nicturtle.model.MaterialStocks;
+import com.github.nicturtle.controller.command.CommandContainer;
+import com.github.nicturtle.controller.service.SendBotMessageServiceImpl;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
@@ -19,6 +21,10 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class TelegramBotConfig extends TelegramLongPollingBot {
 
     private final TelegramBotsApi telegramBotsApi;
+    private final MaterialStocks materialStocks = new MaterialStocks();
+
+    public static String COMMAND_PREFIX = "/";
+
     {
         try {
             telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -31,7 +37,6 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     private void init() throws TelegramApiException {
         telegramBotsApi.registerBot(this);
     }
-
     @Value("${bot.token}")
     private String botToken;
 
@@ -45,10 +50,36 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
         return "bot";
     }
 
+    private final CommandContainer commandContainer;
+
+    public TelegramBotConfig () {
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update.getMessage().getText() + " - " + update.getUpdateId().toString());
-        User user = new User();
-        System.out.println(user.getUserName());
-    }   // my userId = 566937368
+        System.out.println(update.getMessage().getText());
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            String message = update.getMessage().getText().trim();
+            if (message.startsWith(COMMAND_PREFIX)) {
+                String commandIdentifier = message.split(" ")[0].toLowerCase();
+
+                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+            } else {
+                sendMessage(update.getMessage().getChatId(), "ups");
+            }
+        }
+    }
+
+    public void sendMessage(Long chatId, String textToSend) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText(textToSend);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
