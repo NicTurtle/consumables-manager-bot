@@ -47,7 +47,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "bot";
+        return "consumables-manager-bot";
     }
 
     private final CommandContainer commandContainer;
@@ -63,7 +63,6 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             String message = update.getMessage().getText().trim();
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
-
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
             } else {
                 sendMessage(update.getMessage().getChatId(), "ups");
