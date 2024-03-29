@@ -1,6 +1,7 @@
 package com.github.nicturtle.controller.command;
 
 
+import com.github.nicturtle.controller.command.restockCommands.AddWaxCommand;
 import com.github.nicturtle.controller.service.SendBotMessageService;
 import com.google.common.collect.ImmutableMap;
 
@@ -19,6 +20,7 @@ public class CommandContainer {
         commandMap = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService))
                 .put(RESTOCK.getCommandName(), new RestockCommand(sendBotMessageService))
+                .put(ADD_WAX.getCommandName(), new AddWaxCommand(sendBotMessageService))
                 .put(SOLD.getCommandName(), new SoldCommand(sendBotMessageService))
                 .put(PRESENTED.getCommandName(), new PresentedCommand(sendBotMessageService))
                 .put(STOCKS.getCommandName(), new StocksCommand(sendBotMessageService))

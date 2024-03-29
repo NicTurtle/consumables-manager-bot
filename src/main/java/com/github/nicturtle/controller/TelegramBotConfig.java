@@ -73,16 +73,4 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             }
         }
     }
-
-    public void sendMessage(Long chatId, String textToSend) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText(textToSend);
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
