@@ -14,6 +14,6 @@ public class PresentedCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), PRESENTED_MESSAGE);
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), PRESENTED_MESSAGE);
     }
 }

@@ -22,6 +22,7 @@ public class CommandContainer {
                 .put(SOLD.getCommandName(), new SoldCommand(sendBotMessageService))
                 .put(PRESENTED.getCommandName(), new PresentedCommand(sendBotMessageService))
                 .put(STOCKS.getCommandName(), new StocksCommand(sendBotMessageService))
+                .put(NO.getCommandName(), new NoCommand(sendBotMessageService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

@@ -25,17 +25,17 @@ public class MaterialStocks {
 
     public static int wickQuantity = threadWickQuantity + stabilioWickQuantity + woodWickQuantity;
 
-    public static String addMaterialsMenuMessage () {
+    public static String getMaterialsAdditionMenuMessage () {
         return  "В наличии:" +
-                "\nВоска - " + waxQuantity + " мг" + " /addWax" +
+                "\nВоска - " + waxQuantity + " мг" + " addWax" +
                 "\nАрома масел - " + aromaOilQuantity + " мг" +
-                "\n + Черное море - " + blackSeaAromaOilQuantity + " мг" + " /+ЧерноеМоре" +
-                "\n + Манго - " + mangoAromaOilQuantity + " мг" + " /+Манго" +
-                "\n + Лемон - " + lemonAromaOilQuantity + " мг" + " /+Лемон" +
+                "\n + Черное море - " + blackSeaAromaOilQuantity + " мг" + " /addBSOil" +
+                "\n + Манго - " + mangoAromaOilQuantity + " мг" + " /addMangoOil" +
+                "\n + Лемон - " + lemonAromaOilQuantity + " мг" + " /addLemonOil" +
                 "\nФитилей - " + wickQuantity + " шт" +
-                "\n + Нить - " + threadWickQuantity + " шт" + " /+Нить" +
-                "\n + Стабильный фитиль - " + stabilioWickQuantity + " шт" + " /+СтабильныйФитиль" +
-                "\n + Деревянный - " + woodWickQuantity + " шт" + " /sold";
+                "\n + Нить - " + threadWickQuantity + " шт" + " /addThrWick" +
+                "\n + Стабильный фитиль - " + stabilioWickQuantity + " шт" + " /addStabWick" +
+                "\n + Деревянный - " + woodWickQuantity + " шт" + " /addWoodWick";
 
     }
     public static String getTotalQuantityOfStock() {

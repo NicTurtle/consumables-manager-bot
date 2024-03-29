@@ -15,6 +15,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import static com.github.nicturtle.controller.command.CommandName.NO;
+
 @SpringBootApplication
 @Component
 @PropertySource("application.yml")
@@ -58,14 +60,16 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         System.out.println(update.getMessage().getText());
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
             } else {
-                sendMessage(update.getMessage().getChatId(), "ups");
+                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         }
     }

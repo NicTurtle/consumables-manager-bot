@@ -10,7 +10,8 @@ public enum CommandName {
     RESTOCK ("/restock"),
     SOLD ("/sold"),
     PRESENTED ("/presented"),
-    STOCKS ("/stocks");
+    STOCKS ("/stocks"),
+    NO("nocommand");
 
     private final String commandName;
     CommandName(String commandName) {

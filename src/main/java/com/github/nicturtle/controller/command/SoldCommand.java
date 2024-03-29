@@ -14,6 +14,6 @@ public class SoldCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), SOLD_MESSAGE);
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), SOLD_MESSAGE);
     }
 }
