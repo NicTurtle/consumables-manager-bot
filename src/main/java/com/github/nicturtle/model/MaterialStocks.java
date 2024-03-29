@@ -3,29 +3,29 @@ package com.github.nicturtle.model;
 public class MaterialStocks {
 
     /** wax */
-    int waxQuantity = 23423;
+    public static int waxQuantity = 23423;
 
     /** glass */
-    int glass350mlQuantity = 100;
-    int glass250mlQuantity = 50;
-    int glass180mlQuantity = 9;
-    int glass150mlQuantity = 51;
-    int glassQuantity = glass150mlQuantity + glass180mlQuantity + glass250mlQuantity + glass350mlQuantity;
+    public static int glass350mlQuantity = 100;
+    public static int glass250mlQuantity = 50;
+    public static int glass180mlQuantity = 9;
+    public static int glass150mlQuantity = 51;
+    public static int glassQuantity = glass150mlQuantity + glass180mlQuantity + glass250mlQuantity + glass350mlQuantity;
 
     /** aroma oil */
-    int blackSeaAromaOilQuantity = 434;
-    int mangoAromaOilQuantity = 23;
-    int lemonAromaOilQuantity = 123;
-    int aromaOilQuantity = blackSeaAromaOilQuantity + mangoAromaOilQuantity + lemonAromaOilQuantity;
+    public static int blackSeaAromaOilQuantity = 434;
+    public static int mangoAromaOilQuantity = 23;
+    public static int lemonAromaOilQuantity = 123;
+    public static int aromaOilQuantity = blackSeaAromaOilQuantity + mangoAromaOilQuantity + lemonAromaOilQuantity;
 
     /** wicks */
-    int threadWickQuantity = 5;
-    int stabilioWickQuantity = 20;
-    int woodWickQuantity = 30;
+    public static int threadWickQuantity = 5;
+    public static int stabilioWickQuantity = 20;
+    public static int woodWickQuantity = 30;
 
-    int wickQuantity = threadWickQuantity + stabilioWickQuantity + woodWickQuantity;
+    public static int wickQuantity = threadWickQuantity + stabilioWickQuantity + woodWickQuantity;
 
-    public String addMaterialsMenuMessage () {
+    public static String addMaterialsMenuMessage () {
         return  "В наличии:" +
                 "\nВоска - " + waxQuantity + " мг" + " /addWax" +
                 "\nАрома масел - " + aromaOilQuantity + " мг" +
@@ -38,7 +38,7 @@ public class MaterialStocks {
                 "\n + Деревянный - " + woodWickQuantity + " шт" + " /sold";
 
     }
-    public String getTotalQuantityOfStock() {
+    public static String getTotalQuantityOfStock() {
         String result = "В наличии:" +
                 "\nВоска - " + waxQuantity + " мг" +
                 "\nАрома масел - " + aromaOilQuantity + " мг" +
