@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 public class UnknownCommand implements Command {
 
-    public static final String UNKNOWN_MESSAGE = "Не понимаю вас, напишите Коле чтобы узнать что я понимаю.";
+    public static final String UNKNOWN_MESSAGE = "Не понимаю вас.";
 
     private final SendBotMessageService sendBotMessageService;
 

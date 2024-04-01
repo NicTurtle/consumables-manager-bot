@@ -49,6 +49,8 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         }
+
+        // Create a CommandContainer fo all menu;
     }
     public void deleteTwoMessages (Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
