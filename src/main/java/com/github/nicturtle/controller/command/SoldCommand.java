@@ -12,6 +12,7 @@ public class SoldCommand implements Command{
         this.sendBotMessageService = sendBotMessageService;
     }
 
+    //TODO: Add bottoms
     @Override
     public void execute(Update update) {
         sendBotMessageService.sendMessage(update.getMessage().getChatId(), SOLD_MESSAGE);

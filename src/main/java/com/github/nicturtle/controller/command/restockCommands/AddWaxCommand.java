@@ -24,10 +24,5 @@ public class AddWaxCommand implements Command {
     public void execute(Update update) {
         sendBotMessageService.sendMessage(update.getMessage().getChatId(), ADD_WAX_MESSAGE);
 
-//        if (update.getMessage().hasText() && update.getMessage().getText().matches("[0-9]")) {
-//            System.out.println("это цифра");
-//        } else {
-//            System.out.println("цифры нет");
-//        }
     }
 }
