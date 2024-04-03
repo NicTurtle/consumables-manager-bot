@@ -1,5 +1,7 @@
 package com.github.nicturtle.controller.service;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+
 public interface SendBotMessageService {
 
     /**
@@ -9,4 +11,5 @@ public interface SendBotMessageService {
      * @param message provided message to be sent.
      */
     void sendMessage(Long chatId, String message);
+    void sendInlineKeyboardMessage (Long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 }

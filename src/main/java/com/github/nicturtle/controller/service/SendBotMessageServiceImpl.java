@@ -4,6 +4,7 @@ import com.github.nicturtle.controller.TelegramBotConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 /**
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class SendBotMessageServiceImpl implements SendBotMessageService {
 
     private final TelegramBotConfig bot;
+
 
     @Autowired
     public SendBotMessageServiceImpl(TelegramBotConfig bot) {
@@ -25,6 +27,20 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
         sendMessage.setChatId(chatId);
         sendMessage.enableHtml(true);
         sendMessage.setText(message);
+
+        try {
+            bot.execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void sendInlineKeyboardMessage (Long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.enableHtml(true);
+        sendMessage.setText(message);
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
         try {
             bot.execute(sendMessage);

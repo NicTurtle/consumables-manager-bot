@@ -37,10 +37,12 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        System.out.println(update.getMessage().getText());
-
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
+
+            //view message in console
+            System.out.println(update.getMessage().getText());
+
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0];
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
@@ -48,10 +50,15 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
+        } else if (update.hasCallbackQuery()) {
+            if (update.getCallbackQuery().getData().equals("addBlackSeaOil")) {
+                System.out.println("User has pushed the button");
+            }
+        } else {
+            System.out.println("nothing");
         }
-
-        // Create a CommandContainer fo all menu;
     }
+
     public void deleteTwoMessages (Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
         deleteMessage.setChatId(update.getMessage().getChatId());
