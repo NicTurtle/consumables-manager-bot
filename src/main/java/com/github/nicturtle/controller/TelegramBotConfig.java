@@ -1,5 +1,6 @@
 package com.github.nicturtle.controller;
 
+import com.github.nicturtle.controller.service.ChosenMenu;
 import com.github.nicturtle.model.MaterialStocks;
 import com.github.nicturtle.controller.command.CommandContainer;
 import com.github.nicturtle.controller.service.SendBotMessageServiceImpl;
@@ -34,6 +35,8 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     public TelegramBotConfig () throws TelegramApiException {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
     }
+
+    ChosenMenu chosenMenu; //Variable shows which menu the user is in.
     @Override
     public void onUpdateReceived(Update update) {
 
@@ -46,7 +49,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0];
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
-                deleteTwoMessages(update);
+                deleteTwoLastMessages(update);
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
@@ -59,7 +62,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
         }
     }
 
-    public void deleteTwoMessages (Update update) {
+    public void deleteTwoLastMessages (Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
         deleteMessage.setChatId(update.getMessage().getChatId());
         deleteMessage.setMessageId(update.getMessage().getMessageId());

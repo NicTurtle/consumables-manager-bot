@@ -7,16 +7,10 @@ import lombok.Getter;
 public enum CommandName {
 
     START ("/start"),
-
     RESTOCK ("/restock"),
-    ADD_WAX ("/addWax"),
-
     SOLD ("/sold"),
-
     PRESENTED ("/presented"),
-
     STOCKS ("/stocks"),
-
     NO("nocommand");
 
     private final String commandName;
