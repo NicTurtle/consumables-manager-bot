@@ -20,5 +20,4 @@ public enum CommandName {
     public String getCommandName() {
         return commandName;
     }
-
 }
