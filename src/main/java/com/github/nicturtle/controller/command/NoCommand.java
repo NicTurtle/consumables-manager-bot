@@ -3,9 +3,7 @@ package com.github.nicturtle.controller.command;
 import com.github.nicturtle.controller.service.SendBotMessageService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-/**
- * No {@link Command}.
- */
+//TODO: change functional
 public class NoCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
