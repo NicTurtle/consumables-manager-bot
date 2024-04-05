@@ -22,7 +22,7 @@ import static com.github.nicturtle.controller.command.CommandName.NO;
 
 @Component
 public class TelegramBotConfig extends TelegramLongPollingBot {
-    public static String COMMAND_PREFIX = "/";
+    private static final String COMMAND_PREFIX = "/";
     @Value("${bot.token}")
     private String botToken;
     private final CommandContainer commandContainer;
