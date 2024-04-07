@@ -1,5 +1,6 @@
 package com.github.nicturtle.controller;
 
+import com.github.nicturtle.controller.command.CommandName;
 import com.github.nicturtle.controller.service.ChosenMenu;
 import com.github.nicturtle.model.MaterialStocks;
 import com.github.nicturtle.controller.command.CommandContainer;
@@ -37,7 +38,8 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     }
 
     //TODO: use ENUM
-    ChosenMenu chosenMenu; //Variable shows which menu the user is in.
+    //ChosenMenu chosenMenu; //Variable shows which menu the user is in.
+    String chosenMenu;
     @Override
     public void onUpdateReceived(Update update) {
 
@@ -48,8 +50,9 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             System.out.println(update.getMessage().getText());
 
             if (message.startsWith(COMMAND_PREFIX)) {
-                String commandIdentifier = message.split(" ")[0];
+                String commandIdentifier = message.split(" ")[0].toLowerCase();
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
+                chosenMenu = commandIdentifier;
                 deleteTwoLastMessages(update);
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
@@ -63,7 +66,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
         }
     }
 
-    public void deleteTwoLastMessages (Update update) {
+    private void deleteTwoLastMessages (Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
         deleteMessage.setChatId(update.getMessage().getChatId());
         deleteMessage.setMessageId(update.getMessage().getMessageId());
