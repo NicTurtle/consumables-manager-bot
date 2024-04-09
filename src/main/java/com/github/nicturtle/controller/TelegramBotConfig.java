@@ -37,7 +37,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
     }
 
-    //TODO: use ENUM and rlse
+    //TODO: use spring been
     //ChosenMenu chosenMenu; //Variable shows which menu the user is in.
     String chosenMenu;
     @Override
