@@ -11,14 +11,10 @@ public class UnknownCommand implements Command {
     public static final String UNKNOWN_MESSAGE = "Не понимаю вас.";
 
     private final SendBotMessageService sendBotMessageService;
-//    private final SendInlineKeyboardMessageService sendInlineKeyboardMessageService;
 
     public UnknownCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
     }
-//    public UnknownCommand(SendInlineKeyboardMessageService sendInlineKeyboardMessageService) {
-//        this.sendInlineKeyboardMessageService = sendInlineKeyboardMessageService;
-//    }
 
     @Override
     public void execute(Update update) {
