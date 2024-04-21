@@ -1,6 +1,6 @@
 package com.github.nicturtle.model;
 
-//TODO: add List
+//TODO: add List + SQL
 public class MaterialStocks {
 
     /** wax */
