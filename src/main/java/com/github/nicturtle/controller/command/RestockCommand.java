@@ -31,20 +31,32 @@ public class RestockCommand implements Command{
     InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
     InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
     InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
+    InlineKeyboardButton inlineKeyboardButton3 = new InlineKeyboardButton();
+    InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
 
     @Override
     public void execute(Update update) {
-        inlineKeyboardButton1.setText("добавить черное море");
-        inlineKeyboardButton1.setCallbackData("addBlackSeaOil");
-        inlineKeyboardButton2.setText("добавить манго");
-        inlineKeyboardButton2.setCallbackData("addMangoOil");
+        inlineKeyboardButton1.setText("добавить воск");
+        inlineKeyboardButton1.setCallbackData("addWax");
+        inlineKeyboardButton2.setText("добавить стаканы");
+        inlineKeyboardButton2.setCallbackData("addGlass");
+        inlineKeyboardButton3.setText("добавить аромамасло");
+        inlineKeyboardButton3.setCallbackData("addOil");
+        inlineKeyboardButton4.setText("добавить фитили");
+        inlineKeyboardButton4.setCallbackData("addWicks");
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow3 = new ArrayList<>();
+        List<InlineKeyboardButton> keyboardButtonsRow4 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton1);
         keyboardButtonsRow2.add(inlineKeyboardButton2);
+        keyboardButtonsRow3.add(inlineKeyboardButton3);
+        keyboardButtonsRow4.add(inlineKeyboardButton4);
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
+        rowList.add(keyboardButtonsRow3);
+        rowList.add(keyboardButtonsRow4);
         inlineKeyboardMarkup.setKeyboard(rowList);
         sendBotMessageService.sendInlineKeyboardMessage(update.getMessage().getChatId(), RESTOCK_MESSAGE, inlineKeyboardMarkup);
     }
