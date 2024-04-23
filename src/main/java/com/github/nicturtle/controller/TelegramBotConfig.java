@@ -2,11 +2,13 @@ package com.github.nicturtle.controller;
 
 import com.github.nicturtle.controller.command.CommandContainer;
 import com.github.nicturtle.controller.service.SendBotMessageServiceImpl;
+import com.github.nicturtle.model.MaterialStocks;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -32,9 +34,6 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     public TelegramBotConfig () throws TelegramApiException {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
     }
-
-    //TODO: use spring been
-    String chosenMenu;
     private Map<Long, UserState> userStates = new HashMap<>();
 
     @Override
@@ -42,23 +41,51 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
+            long chatId = update.getMessage().getChatId();
 
             //view message in console
             System.out.println(update.getMessage().getText());
             System.out.println(update.getMessage().getChatId());
 
+            //TODO: add a new bottoms for glasses, oils and wicks. MaterialStocks don't show new data in chat.
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
-                userStates.put(update.getMessage().getChatId(), new UserState(commandIdentifier, commandIdentifier));
-                chosenMenu = commandIdentifier;
+                userStates.put(chatId, new UserState(commandIdentifier, commandIdentifier));
                 deleteTwoLastMessages(update);
+            } else if (update.getMessage().getText().matches("[0-9]+")) {
+                if (userStates.get(chatId).getCurrentMenu().equals("addWax")) {
+                    MaterialStocks.waxQuantity += Integer.parseInt(message);
+                    System.out.println(MaterialStocks.waxQuantity);
+                } else if (userStates.get(chatId).getCurrentMenu().equals("addGlass")) {
+                    MaterialStocks.glassQuantity = Integer.parseInt(message);
+                } else if (userStates.get(chatId).getCurrentMenu().equals("addOil")) {
+                    MaterialStocks.aromaOilQuantity = Integer.parseInt(message);
+                } else if (userStates.get(chatId).getCurrentMenu().equals("addWicks")) {
+                    MaterialStocks.wickQuantity = Integer.parseInt(message);
+                }
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
+            long chatId = update.getCallbackQuery().getFrom().getId();
+            UserState userState = userStates.get(chatId);
             if (update.getCallbackQuery().getData().equals("addWax")) {
-                System.out.println("User has pushed the button");
+                //deleteLastMessage(update);
+                userState.setCurrentMenu("addWax");
+                sendMessage(chatId, "введите количество нового воска");
+            } else if (update.getCallbackQuery().getData().equals("addGlass")) {
+                //deleteLastMessage(update);
+                userState.setCurrentMenu("addGlass");
+                sendMessage(chatId, "введите количество новых стаканов");
+            } else if (update.getCallbackQuery().getData().equals("addOil")) {
+                //deleteLastMessage(update);
+                userState.setCurrentMenu("addOil");
+                sendMessage(chatId, "введите количество новоых масел");
+            } else if (update.getCallbackQuery().getData().equals("addWicks")) {
+                //deleteLastMessage(update);
+                userState.setCurrentMenu("addWicks");
+                sendMessage(chatId, "введите количество новых фитилей");
             }
         }
     }
@@ -73,6 +100,36 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             execute(deleteMessage);
         }catch(TelegramApiException tae) {
             throw new RuntimeException(tae);
+        }
+    }
+
+    //TODO: fix deleteLastMessage method
+//    private void deleteLastMessage (Update update) {
+//        DeleteMessage deleteMessage = new DeleteMessage();
+//        if(update.hasMessage()) {
+//            deleteMessage.setChatId(update.getMessage().getChatId());
+//        } else if (update.hasCallbackQuery()) {
+//            deleteMessage.setChatId(update.getCallbackQuery().getFrom().getId());
+//        } else {
+//            return;
+//        }
+//        deleteMessage.setMessageId(update.getMessage().getMessageId());
+//        try {
+//            execute(deleteMessage);
+//        }catch(TelegramApiException tae) {
+//            throw new RuntimeException(tae);
+//        }
+//    }
+
+    public void sendMessage(Long chatId, String message) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(message);
+
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
     @Override

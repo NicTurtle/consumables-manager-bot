@@ -3,6 +3,7 @@ package com.github.nicturtle.controller;
 public class UserState {
     private String currentMenu;
     private String lastCommand;
+
     public UserState(String currentMenu, String lastCommand) {
         this.currentMenu = currentMenu;
         this.lastCommand = lastCommand;
