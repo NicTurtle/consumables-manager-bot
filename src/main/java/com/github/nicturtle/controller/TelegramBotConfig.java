@@ -76,15 +76,15 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
                 sendMessage(chatId, "введите количество нового воска");
             } else if (update.getCallbackQuery().getData().equals("addGlass")) {
                 //deleteLastMessage(update);
-                userState.setCurrentMenu("addGlass");
+                userState.setCurrentMenu("addGlassMenu");
                 sendMessage(chatId, "введите количество новых стаканов");
             } else if (update.getCallbackQuery().getData().equals("addOil")) {
                 //deleteLastMessage(update);
-                userState.setCurrentMenu("addOil");
+                userState.setCurrentMenu("addOilMenu");
                 sendMessage(chatId, "введите количество новоых масел");
             } else if (update.getCallbackQuery().getData().equals("addWicks")) {
                 //deleteLastMessage(update);
-                userState.setCurrentMenu("addWicks");
+                userState.setCurrentMenu("addWicksMenu");
                 sendMessage(chatId, "введите количество новых фитилей");
             }
         }

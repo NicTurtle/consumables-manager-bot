@@ -2,6 +2,7 @@ package com.github.nicturtle.controller.command;
 
 import com.github.nicturtle.controller.service.SendBotMessageService;
 import com.github.nicturtle.model.MaterialStocks;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -12,17 +13,19 @@ import java.util.List;
 public class RestockCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
 
-    public static final String RESTOCK_MESSAGE =
-            "В наличии:" +
-            "\nВоска - " + MaterialStocks.waxQuantity + " мг" +
-            "\nАрома масел - " + MaterialStocks.aromaOilQuantity + " мг" +
-            "\n + Черное море - " + MaterialStocks.blackSeaAromaOilQuantity + " мг" +
-            "\n + Манго - " + MaterialStocks.mangoAromaOilQuantity + " мг" +
-            "\n + Лемон - " + MaterialStocks.lemonAromaOilQuantity + " мг" +
-            "\nФитилей - " + MaterialStocks.wickQuantity + " шт" +
-            "\n + Нить - " + MaterialStocks.threadWickQuantity + " шт" +
-            "\n + Стабильный фитиль - " + MaterialStocks.stabilioWickQuantity + " шт" +
-            "\n + Деревянный - " + MaterialStocks.woodWickQuantity + " шт";
+    private String getRestockMessage() {
+        return             "В наличии:" +
+                "\nВоска - " + MaterialStocks.waxQuantity + " мг" +
+                "\nАрома масел - " + MaterialStocks.aromaOilQuantity + " мг" +
+                "\n + Черное море - " + MaterialStocks.blackSeaAromaOilQuantity + " мг" +
+                "\n + Манго - " + MaterialStocks.mangoAromaOilQuantity + " мг" +
+                "\n + Лемон - " + MaterialStocks.lemonAromaOilQuantity + " мг" +
+                "\nФитилей - " + MaterialStocks.wickQuantity + " шт" +
+                "\n + Нить - " + MaterialStocks.threadWickQuantity + " шт" +
+                "\n + Стабильный фитиль - " + MaterialStocks.stabilioWickQuantity + " шт" +
+                "\n + Деревянный - " + MaterialStocks.woodWickQuantity + " шт";
+    }
+
 
     public RestockCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -58,6 +61,6 @@ public class RestockCommand implements Command{
         rowList.add(keyboardButtonsRow3);
         rowList.add(keyboardButtonsRow4);
         inlineKeyboardMarkup.setKeyboard(rowList);
-        sendBotMessageService.sendInlineKeyboardMessage(update.getMessage().getChatId(), RESTOCK_MESSAGE, inlineKeyboardMarkup);
+        sendBotMessageService.sendInlineKeyboardMessage(update.getMessage().getChatId(), getRestockMessage(), inlineKeyboardMarkup);
     }
 }
