@@ -7,7 +7,7 @@ public class StartCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
 
-    public final static String START_MESSAGE = "Привет. Я Telegram Bot";
+    public final static String START_MESSAGE = "START_MESSAGE";
 
     public StartCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

@@ -25,7 +25,6 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
     public void sendMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.enableHtml(true);
         sendMessage.setText(message);
 
         try {
@@ -38,7 +37,6 @@ public class SendBotMessageServiceImpl implements SendBotMessageService {
     public void sendInlineKeyboardMessage (Long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.enableHtml(true);
         sendMessage.setText(message);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
 
