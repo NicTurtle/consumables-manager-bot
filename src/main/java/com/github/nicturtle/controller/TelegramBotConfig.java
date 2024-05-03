@@ -47,7 +47,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             System.out.println(update.getMessage().getText());
             System.out.println(update.getMessage().getChatId());
 
-            //TODO: add a new bottoms for glasses, oils and wicks. MaterialStocks don't show new data in chat.
+            //TODO: create a collections and beans (Spring)
             if (message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
