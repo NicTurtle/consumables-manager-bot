@@ -38,6 +38,7 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        System.out.println(update);
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
@@ -102,23 +103,24 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
         }
     }
 
-    //TODO: fix deleteLastMessage method
-//    private void deleteLastMessage (Update update) {
-//        DeleteMessage deleteMessage = new DeleteMessage();
-//        if(update.hasMessage()) {
-//            deleteMessage.setChatId(update.getMessage().getChatId());
-//        } else if (update.hasCallbackQuery()) {
-//            deleteMessage.setChatId(update.getCallbackQuery().getFrom().getId());
-//        } else {
-//            return;
-//        }
-//        deleteMessage.setMessageId(update.getMessage().getMessageId());
-//        try {
-//            execute(deleteMessage);
-//        }catch(TelegramApiException tae) {
-//            throw new RuntimeException(tae);
-//        }
-//    }
+    //TODO:fix
+    private void deleteLastMessage (Update update) {
+        DeleteMessage deleteMessage = new DeleteMessage();
+        if(update.hasMessage()) {
+            deleteMessage.setMessageId(update.getMessage().getMessageId());
+            deleteMessage.setChatId(update.getMessage().getChatId());
+        } else if (update.hasCallbackQuery()) {
+            deleteMessage.setMessageId(update.getCallbackQuery().getMessage().getMessageId());
+            deleteMessage.setChatId(update.getMessage().getChatId());
+        } else {
+            return;
+        }
+        try {
+            execute(deleteMessage);
+        }catch(TelegramApiException tae) {
+            throw new RuntimeException(tae);
+        }
+    }
 
     public void sendMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage();
