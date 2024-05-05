@@ -56,7 +56,6 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             } else if (update.getMessage().getText().matches("[0-9]+")) {
                 if (userStates.get(chatId).getCurrentMenu().equals("addWax")) {
                     MaterialStocks.waxQuantity += Integer.parseInt(message);
-                    System.out.println(MaterialStocks.waxQuantity);
                 } else if (userStates.get(chatId).getCurrentMenu().equals("addGlass")) {
                     MaterialStocks.glassQuantity = Integer.parseInt(message);
                 } else if (userStates.get(chatId).getCurrentMenu().equals("addOil")) {

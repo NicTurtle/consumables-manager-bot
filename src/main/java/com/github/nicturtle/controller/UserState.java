@@ -3,13 +3,13 @@ package com.github.nicturtle.controller;
 public class UserState {
     private String currentMenu;
     private String lastCommand;
+    int lastBotMessageId;
 
     public UserState(String currentMenu, String lastCommand) {
         this.currentMenu = currentMenu;
         this.lastCommand = lastCommand;
     }
 
-    // Геттеры и сеттеры
     public String getCurrentMenu() {
         return currentMenu;
     }

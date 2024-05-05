@@ -26,6 +26,11 @@ public class RestockCommand implements Command{
                 "\n + Деревянный - " + MaterialStocks.woodWickQuantity + " шт";
     }
 
+    //TODO:
+    private String getAddOilMessage() {
+        return "";
+    }
+
 
     public RestockCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
