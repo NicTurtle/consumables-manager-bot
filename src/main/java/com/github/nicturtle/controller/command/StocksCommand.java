@@ -4,7 +4,7 @@ import com.github.nicturtle.controller.service.SendBotMessageService;
 import com.github.nicturtle.model.MaterialStocks;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-//TODO: Add bottoms
+//TODO: Add buttons
 public class StocksCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private String getStocksMessage() {
