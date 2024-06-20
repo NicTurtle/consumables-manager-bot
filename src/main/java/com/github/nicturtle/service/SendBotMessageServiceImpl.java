@@ -1,4 +1,4 @@
-package com.github.nicturtle.controller.service;
+package com.github.nicturtle.service;
 
 import com.github.nicturtle.controller.TelegramBotConfig;
 import org.springframework.beans.factory.annotation.Autowired;
