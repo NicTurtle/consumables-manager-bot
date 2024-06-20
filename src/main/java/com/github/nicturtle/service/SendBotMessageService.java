@@ -1,4 +1,4 @@
-package com.github.nicturtle.controller.service;
+package com.github.nicturtle.service;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 

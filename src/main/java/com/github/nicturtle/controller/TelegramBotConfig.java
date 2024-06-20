@@ -1,7 +1,7 @@
 package com.github.nicturtle.controller;
 
 import com.github.nicturtle.controller.command.CommandContainer;
-import com.github.nicturtle.controller.service.SendBotMessageServiceImpl;
+import com.github.nicturtle.service.SendBotMessageServiceImpl;
 import com.github.nicturtle.model.MaterialStocks;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;

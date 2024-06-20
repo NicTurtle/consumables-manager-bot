@@ -1,8 +1,7 @@
 package com.github.nicturtle.controller.command;
 
-import com.github.nicturtle.controller.service.SendBotMessageService;
+import com.github.nicturtle.service.SendBotMessageService;
 import com.github.nicturtle.model.MaterialStocks;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
