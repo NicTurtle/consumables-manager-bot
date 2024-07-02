@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 
 import static com.github.nicturtle.controller.command.CommandName.*;
 
-/**
- * Container of the {@link Command}s, which are using for handling telegram commands.
- */
 @Component
 public class CommandContainer {
 

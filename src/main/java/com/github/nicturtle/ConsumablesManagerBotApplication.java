@@ -7,8 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-@ComponentScan("com.github.nicturtle.model")
 @SpringBootApplication
+@ComponentScan
 @EntityScan(basePackages = "com.github.nicturtle.model.entity")
 @EnableJpaRepositories(basePackages = "com.github.nicturtle.model.repository")
 public class ConsumablesManagerBotApplication {
