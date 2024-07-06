@@ -11,6 +11,7 @@ public enum CommandName {
     SOLD ("/sold"),
     PRESENTED ("/presented"),
     STOCKS ("/stocks"),
+    ADD_NEW_MATERIAL ("/add"),
     NO("nocommand");
 
     private final String commandName;

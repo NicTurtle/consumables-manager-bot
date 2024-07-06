@@ -43,13 +43,13 @@ public class RestockCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        inlineKeyboardButton1.setText("добавить воск");
+        inlineKeyboardButton1.setText("пополнить воск");
         inlineKeyboardButton1.setCallbackData("addWax");
-        inlineKeyboardButton2.setText("добавить стаканы");
+        inlineKeyboardButton2.setText("пополнить стаканы");
         inlineKeyboardButton2.setCallbackData("addGlass");
-        inlineKeyboardButton3.setText("добавить аромамасло");
+        inlineKeyboardButton3.setText("пополнить аромамасло");
         inlineKeyboardButton3.setCallbackData("addOil");
-        inlineKeyboardButton4.setText("добавить фитили");
+        inlineKeyboardButton4.setText("пополнить фитили");
         inlineKeyboardButton4.setCallbackData("addWicks");
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
