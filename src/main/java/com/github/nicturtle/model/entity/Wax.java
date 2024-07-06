@@ -3,6 +3,7 @@ package com.github.nicturtle.model.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "wax")
 public class Wax {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

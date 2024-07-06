@@ -1,9 +1,13 @@
 package com.github.nicturtle.controller;
 
 import com.github.nicturtle.controller.command.CommandContainer;
-import com.github.nicturtle.service.SendBotMessageServiceImpl;
-import com.github.nicturtle.model.MaterialStocks;
+import com.github.nicturtle.service.*;
+import com.github.nicturtle.model.entity.AromaOil;
+import com.github.nicturtle.model.entity.Glass;
+import com.github.nicturtle.model.entity.Wax;
+import com.github.nicturtle.model.entity.Wick;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -30,17 +34,30 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
     private final TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
     private final Map<Long, UserState> userStates = new HashMap<>();
 
+    @Autowired
+    private AromaOilService aromaOilService;
+
+    @Autowired
+    private GlassService glassService;
+
+    @Autowired
+    private WaxService waxService;
+
+    @Autowired
+    private WickService wickService;
+
     @PostConstruct
     private void init() throws TelegramApiException {
         telegramBotsApi.registerBot(this);
+        System.out.println("Bot successfully initialized!");
     }
-    public TelegramBotConfig () throws TelegramApiException {
+
+    public TelegramBotConfig() throws TelegramApiException {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-
         if (update.hasMessage() && update.getMessage().hasText()) {
             String message = update.getMessage().getText().trim();
             long chatId = update.getMessage().getChatId();
@@ -55,15 +72,26 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
                 deleteTwoLastMessages(update);
             } else if (update.getMessage().getText().matches("[0-9]+")) {
                 if (userStates.get(chatId) != null) {
+                    int quantity = Integer.parseInt(message);
                     if ("addWax".equals(userStates.get(chatId).getCurrentMenu())) {
-                        MaterialStocks.waxQuantity += Integer.parseInt(message);
+                        Wax wax = new Wax();
+                        wax.setQuantity(quantity);
+                        waxService.saveWax(wax);
                     } else if ("addGlass".equals(userStates.get(chatId).getCurrentMenu())) {
-                        MaterialStocks.glassQuantity = Integer.parseInt(message);
+                        Glass glass = new Glass();
+                        glass.setQuantity(quantity);
+                        glass.setType("default"); // Установите значение для поля type
+                        glassService.saveGlass(glass);
                     } else if ("addOil".equals(userStates.get(chatId).getCurrentMenu())) {
-                        MaterialStocks.aromaOilQuantity = Integer.parseInt(message);
+                        AromaOil aromaOil = new AromaOil();
+                        aromaOil.setQuantity(quantity);
+                        aromaOilService.saveAromaOil(aromaOil);
                     } else if ("addWicks".equals(userStates.get(chatId).getCurrentMenu())) {
-                        MaterialStocks.wickQuantity = Integer.parseInt(message);
+                        Wick wick = new Wick();
+                        wick.setQuantity(quantity);
+                        wickService.saveWick(wick);
                     }
+                    sendMessage(chatId, "Материал успешно добавлен.");
                 }
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
@@ -76,18 +104,19 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
                     userState.setCurrentMenu("addWax");
                     sendMessage(chatId, "Введите количество нового воска");
                 } else if ("addGlass".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addGlassMenu");
+                    userState.setCurrentMenu("addGlass");
                     sendMessage(chatId, "Введите количество новых стаканов");
                 } else if ("addOil".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addOilMenu");
+                    userState.setCurrentMenu("addOil");
                     sendMessage(chatId, "Введите количество новых масел");
                 } else if ("addWicks".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addWicksMenu");
+                    userState.setCurrentMenu("addWicks");
                     sendMessage(chatId, "Введите количество новых фитилей");
                 }
             }
         }
     }
+
 
     private void deleteTwoLastMessages(Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
@@ -101,24 +130,6 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
             tae.printStackTrace();
         }
     }
-
-//    private void deleteLastMessage(Update update) {
-//        DeleteMessage deleteMessage = new DeleteMessage();
-//        if (update.hasMessage()) {
-//            deleteMessage.setMessageId(update.getMessage().getMessageId());
-//            deleteMessage.setChatId(update.getMessage().getChatId());
-//        } else if (update.hasCallbackQuery()) {
-//            deleteMessage.setMessageId(update.getCallbackQuery().getMessage().getMessageId());
-//            deleteMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
-//        } else {
-//            return;
-//        }
-//        try {
-//            execute(deleteMessage);
-//        } catch (TelegramApiException tae) {
-//            tae.printStackTrace();
-//        }
-//    }
 
     public void sendMessage(Long chatId, String message) {
         SendMessage sendMessage = new SendMessage();
