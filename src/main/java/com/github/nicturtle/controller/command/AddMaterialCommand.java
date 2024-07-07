@@ -53,26 +53,5 @@ public class AddMaterialCommand implements Command {
 
         inlineKeyboardMarkup.setKeyboard(rowList);
         sendBotMessageService.sendInlineKeyboardMessage(update.getMessage().getChatId(), PRESENTED_MESSAGE, inlineKeyboardMarkup);
-
-        String callbackData = update.getCallbackQuery().getData();
-        Long chatId = update.getCallbackQuery().getMessage().getChatId();
-
-        switch (callbackData) {
-            case "addNewWax":
-                sendBotMessageService.sendMessage(chatId, "Введите новый тип воска и его количество (например, 'Соевый воск 100 кг')");
-                break;
-            case "addNewGlass":
-                sendBotMessageService.sendMessage(chatId, "Введите новый тип стакана и его количество");
-                break;
-            case "addNewOil":
-                sendBotMessageService.sendMessage(chatId, "Введите новый тип аромамасла и его количество");
-                break;
-            case "addNewWicks":
-                sendBotMessageService.sendMessage(chatId, "Введите новый тип фитиля и его количество");
-                break;
-            default:
-                sendBotMessageService.sendMessage(chatId, "Неизвестная команда");
-                break;
-        }
     }
 }

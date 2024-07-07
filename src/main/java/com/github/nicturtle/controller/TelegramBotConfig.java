@@ -70,53 +70,53 @@ public class TelegramBotConfig extends TelegramLongPollingBot {
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
                 userStates.put(chatId, new UserState(commandIdentifier, commandIdentifier));
                 deleteTwoLastMessages(update);
-            } else if (update.getMessage().getText().matches("[0-9]+")) {
+            } else {
+                // Обработка текстовых сообщений, когда пользователь вводит название нового материала
                 if (userStates.get(chatId) != null) {
-                    int quantity = Integer.parseInt(message);
-                    if ("addWax".equals(userStates.get(chatId).getCurrentMenu())) {
+                    String materialName = message;
+                    if ("addNewWax".equals(userStates.get(chatId).getCurrentMenu())) {
                         Wax wax = new Wax();
-                        wax.setQuantity(quantity);
+                        wax.setType(materialName);
                         waxService.saveWax(wax);
-                    } else if ("addGlass".equals(userStates.get(chatId).getCurrentMenu())) {
+                    } else if ("addNewGlass".equals(userStates.get(chatId).getCurrentMenu())) {
                         Glass glass = new Glass();
-                        glass.setQuantity(quantity);
-                        glass.setType("default"); // Установите значение для поля type
+                        glass.setType(materialName);
                         glassService.saveGlass(glass);
-                    } else if ("addOil".equals(userStates.get(chatId).getCurrentMenu())) {
+                    } else if ("addNewOil".equals(userStates.get(chatId).getCurrentMenu())) {
                         AromaOil aromaOil = new AromaOil();
-                        aromaOil.setQuantity(quantity);
+                        aromaOil.setType(materialName);
                         aromaOilService.saveAromaOil(aromaOil);
-                    } else if ("addWicks".equals(userStates.get(chatId).getCurrentMenu())) {
+                    } else if ("addNewWicks".equals(userStates.get(chatId).getCurrentMenu())) {
                         Wick wick = new Wick();
-                        wick.setQuantity(quantity);
+                        wick.setType(materialName);
                         wickService.saveWick(wick);
                     }
-                    sendMessage(chatId, "Материал успешно добавлен.");
+                    sendMessage(chatId, "Новый материал успешно добавлен.");
+                    userStates.remove(chatId); // Очистка состояния пользователя после ввода нового материала
+                } else {
+                    commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
                 }
-            } else {
-                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
             long chatId = update.getCallbackQuery().getFrom().getId();
             UserState userState = userStates.get(chatId);
             if (userState != null) {
-                if ("addWax".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addWax");
-                    sendMessage(chatId, "Введите количество нового воска");
-                } else if ("addGlass".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addGlass");
-                    sendMessage(chatId, "Введите количество новых стаканов");
-                } else if ("addOil".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addOil");
-                    sendMessage(chatId, "Введите количество новых масел");
-                } else if ("addWicks".equals(update.getCallbackQuery().getData())) {
-                    userState.setCurrentMenu("addWicks");
-                    sendMessage(chatId, "Введите количество новых фитилей");
+                if ("addNewWax".equals(update.getCallbackQuery().getData())) {
+                    userState.setCurrentMenu("addNewWax");
+                    sendMessage(chatId, "Введите название нового типа воска");
+                } else if ("addNewGlass".equals(update.getCallbackQuery().getData())) {
+                    userState.setCurrentMenu("addNewGlass");
+                    sendMessage(chatId, "Введите название нового типа стакана");
+                } else if ("addNewOil".equals(update.getCallbackQuery().getData())) {
+                    userState.setCurrentMenu("addNewOil");
+                    sendMessage(chatId, "Введите название нового типа аромамасла");
+                } else if ("addNewWicks".equals(update.getCallbackQuery().getData())) {
+                    userState.setCurrentMenu("addNewWicks");
+                    sendMessage(chatId, "Введите название нового типа фитиля");
                 }
             }
         }
     }
-
 
     private void deleteTwoLastMessages(Update update) {
         DeleteMessage deleteMessage = new DeleteMessage();
